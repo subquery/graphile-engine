@@ -5289,6 +5289,20 @@ graphile-build-pg@4.12.1:
     lru-cache ">=4 <5"
     pg-sql2 "4.12.1"
 
+graphile-build-pg@4.12.3:
+  version "4.12.3"
+  resolved "https://registry.yarnpkg.com/graphile-build-pg/-/graphile-build-pg-4.12.3.tgz#d1f86ec539f5683792298c674310c3bd6c9a8cae"
+  integrity sha512-Gnwwxm2NRuyxOx5xchU+Po9a6XagRJpEgoezzHmfBRHwFBY2zprCMYdLvllqRrPJBBWdYAjx7H1NxctBiYiIoQ==
+  dependencies:
+    "@graphile/lru" "4.11.0"
+    chalk "^2.4.2"
+    debug "^4.1.1"
+    graphile-build "4.12.3"
+    jsonwebtoken "^8.5.1"
+    lodash ">=4 <5"
+    lru-cache ">=4 <5"
+    pg-sql2 "4.12.3"
+
 graphile-build@4.12.0:
   version "4.12.0"
   resolved "https://registry.yarnpkg.com/graphile-build/-/graphile-build-4.12.0.tgz#726bdb1338f13b30cdec35ee3b0c9af8aa7f7dab"

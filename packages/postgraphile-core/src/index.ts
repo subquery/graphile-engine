@@ -18,7 +18,7 @@ import {
   Inflector,
   PgAttribute,
   formatSQLForDebugging,
-} from "graphile-build-pg";
+} from "@subql/x-graphile-build-pg";
 import { Pool, PoolClient } from "pg";
 import { SignOptions, Secret } from "jsonwebtoken";
 
