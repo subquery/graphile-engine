@@ -180,10 +180,10 @@ with
       (pg_catalog.pg_relation_is_updatable(rel.oid, true)::bit(8) operator(pg_catalog.&) B'00010000') = B'00010000' as "isDeletable",
       (pg_catalog.pg_relation_is_updatable(rel.oid, true)::bit(8) operator(pg_catalog.&) B'00001000') = B'00001000' as "isInsertable",
       (pg_catalog.pg_relation_is_updatable(rel.oid, true)::bit(8) operator(pg_catalog.&) B'00000100') = B'00000100' as "isUpdatable",
-      exists(select 1 from accessible_roles where has_table_privilege(accessible_roles.oid, rel.oid, 'SELECT')) as "aclSelectable",
-      exists(select 1 from accessible_roles where has_table_privilege(accessible_roles.oid, rel.oid, 'INSERT')) as "aclInsertable",
-      exists(select 1 from accessible_roles where has_table_privilege(accessible_roles.oid, rel.oid, 'UPDATE')) as "aclUpdatable",
-      exists(select 1 from accessible_roles where has_table_privilege(accessible_roles.oid, rel.oid, 'DELETE')) as "aclDeletable"
+      1 as "aclSelectable",
+      1 as "aclInsertable",
+      1 as "aclUpdatable",
+      1 as "aclDeletable"
     from
       pg_catalog.pg_class as rel
       left join pg_catalog.pg_description as dsc on dsc.objoid = rel.oid and dsc.objsubid = 0 and dsc.classoid = 'pg_catalog.pg_class'::regclass
@@ -221,9 +221,9 @@ with
       att.attnotnull as "isNotNull",
       att.atthasdef as "hasDefault",
       ${serverVersionNum >= 100000 ? "att.attidentity" : "''"} as "identity",
-      exists(select 1 from accessible_roles where has_column_privilege(accessible_roles.oid, att.attrelid, att.attname, 'SELECT')) as "aclSelectable",
-      exists(select 1 from accessible_roles where has_column_privilege(accessible_roles.oid, att.attrelid, att.attname, 'INSERT')) as "aclInsertable",
-      exists(select 1 from accessible_roles where has_column_privilege(accessible_roles.oid, att.attrelid, att.attname, 'UPDATE')) as "aclUpdatable",
+      1 as "aclSelectable",
+      1 as "aclInsertable",
+      1 as "aclUpdatable",
       -- https://git.postgresql.org/gitweb/?p=postgresql.git;a=commit;h=c62dd80cdf149e2792b13c13777a539f5abb0370
       att.attacl is not null and exists(select 1 from aclexplode(att.attacl) aclitem where aclitem.privilege_type = 'SELECT' and grantee in (select oid from accessible_roles)) as "columnLevelSelectGrant"
     from
@@ -393,19 +393,6 @@ with
       idx.indpred is not null as "isPartial", -- if true, index is not on on rows.
       idx.indkey as "attributeNums",
       am.amname as "indexType",
-      ${
-        serverVersionNum >= 90600
-          ? `\
-      (
-        select array_agg(pg_index_column_has_property(idx.indexrelid,n::int2,'asc'))
-        from unnest(idx.indkey) with ordinality as ord(key,n)
-      ) as "attributePropertiesAsc",
-      (
-        select array_agg(pg_index_column_has_property(idx.indexrelid,n::int2,'nulls_first'))
-        from unnest(idx.indkey) with ordinality as ord(key,n)
-      ) as "attributePropertiesNullsFirst",`
-          : ""
-      }
       dsc.description as "description"
     from
       pg_catalog.pg_index as idx
