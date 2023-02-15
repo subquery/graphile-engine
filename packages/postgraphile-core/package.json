@@ -1,6 +1,6 @@
 {
   "name": "@subql/x-postgraphile-core",
-  "version": "4.12.3-0.1.0",
+  "version": "4.13.0-0.1.0",
   "description": "",
   "main": "node8plus/index.js",
   "scripts": {
@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "graphile-build": "4.12.3",
-    "@subql/x-graphile-build-pg": "4.12.3-0.1.0",
+    "@subql/x-graphile-build-pg": "4.13.0-0.1.0",
     "tslib": "^2.0.1"
   },
   "devDependencies": {
@@ -30,7 +30,7 @@
     "jest": "25.x",
     "jest-serializer-graphql-schema": "4.10.0",
     "jest-silent-reporter": "^0.2.1",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "pg-connection-string": "^2.1.0",
     "ts-node": "^9.0.0",
     "typescript": "^4.0.2"
