@@ -689,6 +689,24 @@ export default (async function PgIntrospectionPlugin(
             pgIncludeExtensionResources,
           ]);
 
+          // improve cockraoch introspectionQuery, handle filter index conditions here
+          // where idx.indislive is not false and
+          //       idx.indisexclusion is not true and
+          //       idx.indcheckxmin is not true and
+          //       idx.indpred is null
+          const filteredRows = rows.filter(r => {
+            if (r.object?.kind !== "index") {
+              return true;
+            } else {
+              return (
+                r.object?.indislive !== false &&
+                r.object?.indisexclusion !== true &&
+                r.object?.indcheckxmin !== true &&
+                r.object?.indpred == null
+              );
+            }
+          });
+
           const result = {
             __pgVersion: serverVersionNum,
             namespace: [],
@@ -700,7 +718,7 @@ export default (async function PgIntrospectionPlugin(
             extension: [],
             index: [],
           };
-          for (const { object } of rows) {
+          for (const { object } of filteredRows) {
             result[object.kind].push(object);
           }
 

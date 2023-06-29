@@ -401,11 +401,7 @@ with
       inner join pg_catalog.pg_namespace as nsp on (nsp.oid = idx_more.relnamespace)
       inner join pg_catalog.pg_am as am on (am.oid = idx_more.relam)
       left join pg_catalog.pg_description as dsc on dsc.objoid = idx.indexrelid and dsc.objsubid = 0 and dsc.classoid = 'pg_catalog.pg_class'::regclass
-    where
-      idx.indislive is not false and
-      idx.indisexclusion is not true and -- exclusion index
-      idx.indcheckxmin is not true and -- always valid?
-      idx.indpred is null -- no partial index predicate
+      -- we removed where conditions here to improve performance, filter it from result in PgIntrospectionPlugin
     order by
       idx.indrelid, idx.indexrelid
   )
