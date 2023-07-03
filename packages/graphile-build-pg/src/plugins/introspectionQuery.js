@@ -392,10 +392,10 @@ with
       idx.indisvalid as "isValid", -- if false, don't use for queries
       idx.indpred is not null as "isPartial", -- if true, index is not on on rows.
       idx.indkey as "attributeNums",
-      idex.indislive as "indislive",
-      idex.indisexclusion as "indisexclusion",
-      idex.indcheckxmin as "indcheckxmin",
-      idex.indpred as "indpred",
+      idx.indislive as "indislive",
+      idx.indisexclusion as "indisexclusion",
+      idx.indcheckxmin as "indcheckxmin",
+      idx.indpred as "indpred",
       am.amname as "indexType",
       dsc.description as "description"
     from
